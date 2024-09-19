@@ -13,7 +13,7 @@ public class Greeter {
   */
  
   public Greeter() {
-   // contructeur par défaut
+   // contructeur par défaut test
   }
 
    public void doSomeThing() {
