@@ -1,7 +1,5 @@
 package com.example;
 
-import java.lang.*;
-
 import java.lang.Math;
 /**
 * this is a Class
