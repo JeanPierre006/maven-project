@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone codebase') {
+            steps {
+                echo 'clone codebase'
+                git 'https://github.com/JeanPierre006/maven-project.git'
+            }
+        }
+        
+        stage('compile') {
+            steps {
+                echo 'compile'
+                withMaven(maven:'localMaven')
+                {
+                    sh "mvn compile"
+                }
+            }
+        }
+        
+        stage('unit test') {
+            steps {
+                echo 'unit test'
+                withMaven(maven:'localMaven')
+                {
+                    sh "mvn test"
+                }
+            }
+        }
+        
+        stage('build') {
+            steps {
+                echo 'build'
+                withMaven(maven:'localMaven')
+                {
+                    sh "mvn -B -DskipTests clean package"
+                }
+            }
+        }
+        
+        stage('sonar') {
+            steps {
+                echo 'sonar'
+                withSonarQubeEnv(installationName:'localsonar',credentialsId:'cred4sonar')
+                {
+                    sh "mvn sonar:sonar"
+                }
+            }
+        }
+        
+        stage('deploy') {
+            steps {
+                echo 'deploy'
+            }
+        }
+        
+    }
+}
